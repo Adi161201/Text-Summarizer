@@ -1,0 +1,139 @@
+/* Reset default margin and padding */
+body, h1, h2, p, textarea {
+    margin: 0;
+    padding: 0;
+}
+
+/* Set background color and font family */
+body {
+    
+    font-family: Arial, sans-serif;
+}
+
+#image{
+    position: absolute;
+    width: 350px;
+    height: 350px;
+    bottom: 50px;
+}
+#image>img{
+    height: 100%;
+    width :100% ;
+}
+/* Container styles */
+.container {
+    position: relative;
+    left: 9%;
+    
+    max-width: 1000px;
+    height: 600px;
+    margin:  50px auto ;
+    
+    padding: 20px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(11px); 
+    -webkit-backdrop-filter: blur(11px); 
+}
+
+/* Header styles */
+header {
+    text-align: center;
+    margin-bottom: 30px;
+    
+}
+
+/* Input and Output container styles */
+.input-output-container {
+    display: flex;
+    gap: 100px;
+}
+
+/* Input and Output section styles */
+.input-section, .output-section {
+    flex: 1;
+}
+
+h2 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    color: green;
+}
+
+textarea {
+    position: fixed;
+    height: 380px;
+    width: 500px;
+    
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    overflow: auto;
+    resize: none;
+}
+
+p {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    min-height: 250px;
+    overflow: auto;
+}
+
+#summarize-btn{
+    position: absolute;
+    display: flex;
+    width: 150px;
+    height: 40px;
+    border-radius: 20px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
+    bottom: 8%;
+    left: 45%;
+    background-color: green;
+    border: none;
+}
+
+
+.slider-container {
+    position: absolute;
+    width: 20%;
+    margin: 0 auto;
+    bottom: 6%;
+    text-align: center;
+}
+
+#slider {
+    width: 100%;
+}
+
+.slider-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+#slider-value {
+    text-align: center;
+    font-weight: bold;
+}
+
+#loading-screen{
+    position: absolute;
+    bottom: 15%;
+    right: 20%;
+    width: 110px;
+    height: 140px;
+    display: none;
+}
+#loading-screen>img{
+    height: 100%;
+    width: 100%;
+}
+

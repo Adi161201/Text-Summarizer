@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Summarizer</title>
+    <link rel="stylesheet" href="../static/css/summarizer.css">
+</head>
+<body>
+    <div id="image"> <img src="../static/assets/3297140.jpg" alt=""></div>
+    <div class="container">
+        <header>
+            <h1>Text Summarizer</h1>
+        </header>
+        <main>
+            <div class="input-output-container">
+                <section class="input-section">
+                    <h2>Paste Your Text</h2>
+                    <textarea id="input-text" rows="10" placeholder="Paste your text here..."></textarea>
+                </section>
+                <section class="output-section">
+                    <h2>Summary</h2>
+                    <p id="summary">Summarized text will appear here.</p>
+                </section>
+            </div>
+            <div class="slider-container">
+                <input type="range" id="slider" min="1" max="3" step="1" value="2">
+                <div class="slider-labels">
+                    <label for="slider">Short</label>
+                    <label for="slider">Medium</label>
+                    <label for="slider">Long</label>
+                </div>
+            </div>
+            <!-- <button id="summarize-btn"><a href="#">Summarize</a></button> -->
+            <button id="summarize-btn">Summarize</button>
+            <div id="loading-screen">
+                <img src="../static/assets/ezgif.com-crop.gif" alt="">
+            </div>
+            
+        </main>
+    </div>
+
+    <script>
+        const output = document.getElementById('summary');
+        const btn = document.getElementById('summarize-btn');
+        const icon = document.getElementById('loading-screen');
+        btn.addEventListener('click', async () => 
+        {
+            output.innerHTML = " ";
+            icon.style.display = "block";
+            const input = document.getElementById('input-text').value;
+            const slider = document.getElementById('slider').value;  // Get the slider value
+            // Send the input text and the slider value to the Flask server for summarization
+            console.log(input);
+            console.log(slider);
+            try{
+
+            
+                const response = await fetch('/summarize', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams({
+                        'input_text': input,
+                        'slider_value': slider  // Include the slider value in the request
+                    }),
+                });
+
+                // Parse the response and update the summary section
+                const data = await response.json();
+                output.innerHTML = data.summary;
+            }
+            catch (error) 
+            {
+                console.error(error);
+            } 
+            finally {
+                icon.style.display = "none"; // Hide the processing icon after processing
+            }
+            
+        });
+
+    </script>
+        
+
+</body>
+</html>
