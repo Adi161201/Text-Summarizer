@@ -1,14 +1,14 @@
 from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
-from transformers import BartTokenizer, BartForConditionalGeneration, BartConfig
+from transformers import PegasusForConditionalGeneration, PegasusTokenizer
 
 save_directory = "models"
 
 # model = BartForConditionalGeneration.from_pretrained('facebook/bart-large-cnn')
 # tokenizer = BartTokenizer.from_pretrained('facebook/bart-large-cnn')
 
-tokenizer = BartTokenizer.from_pretrained(save_directory)
-model = BartForConditionalGeneration.from_pretrained(save_directory) 
+tokenizer = PegasusTokenizer.from_pretrained(save_directory)
+model = PegasusForConditionalGeneration.from_pretrained(save_directory) 
 
 print("Loaded")
 # Your summarization model or function
@@ -18,28 +18,32 @@ print("Loaded")
 app = Flask(__name__,template_folder="template")
 CORS(app)
 
-def summarize_text(input_text,length):
+def summarize_text(input_text):
     
-    input_ids = tokenizer.encode(input_text, return_tensors="pt", max_length=1024, truncation=True)
-    short = int(0.12*len(input_ids[0]))
-    medium = int(0.2* len(input_ids[0]))
-    large = int(0.3* len(input_ids[0]))
+    tokens = tokenizer(input_text, truncation=True, padding="longest", return_tensors="pt")
+    summary = model.generate(**tokens)
+    output_text = tokenizer.decode(summary[0])
+    print(output_text)
+    return str(output_text)
+    # short = int(0.12*len(input_ids[0]))
+    # medium = int(0.2* len(input_ids[0]))
+    # large = int(0.3* len(input_ids[0]))
 
-    if (length ==1):
-        min_length = short
-        max_length = int(0.2*(len(input_ids[0])))
-    elif (length==2): 
-        min_length=medium
-        max_length = int(0.3*(len(input_ids[0])))
-    else : 
-        min_length=large
-        max_length = int(0.4*(len(input_ids[0])))
+    # if (length ==1):
+    #     min_length = short
+    #     max_length = int(0.2*(len(input_ids[0])))
+    # elif (length==2): 
+    #     min_length=medium
+    #     max_length = int(0.3*(len(input_ids[0])))
+    # else : 
+    #     min_length=large
+    #     max_length = int(0.4*(len(input_ids[0])))
 
-    summary_ids = model.generate(input_ids, max_length= max_length, min_length=min_length, length_penalty=2.0, num_beams=4, early_stopping=True)
-    summary = tokenizer.decode(summary_ids[0], skip_special_tokens=True)
+    # summary_ids = model.generate(input_ids, max_length= max_length, min_length=min_length, length_penalty=2.0, num_beams=4, early_stopping=True)
+    # summary = tokenizer.decode(summary_ids[0], skip_special_tokens=True)
 
-    print(summary)
-    return str(summary)
+    # print(summary)
+    # return str(summary)
 
 
 @app.route('/')
@@ -54,10 +58,10 @@ def text_summarizer():
 def summarize():
     try:
         input_text = request.form.get('input_text')
-        slider_value = int(request.form.get('slider_value'))
+        # slider_value = int(request.form.get('slider_value'))
 
         print("Value Received" + " *"*50)
-        summary = summarize_text(input_text, slider_value)
+        summary = summarize_text(input_text)
         print("Done")
         return jsonify({'summary': summary})
     except Exception as e:
