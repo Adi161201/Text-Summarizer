@@ -1,6 +1,8 @@
 # Text Summarizer 
 
 Welcome to the Text Summarizer project! This repository contains a web app that utilizes the Pegasus Transformer Model for text summarization. The app allows users to input a piece of text and generate a summary using the power of the Pegasus Transformer model. It's a user-friendly way to condense lengthy articles or documents into concise and coherent summaries.
+
+
 ![Capture](https://github.com/Adi161201/Text-Summarizer/assets/74753818/ea1cbcdc-c881-4a8a-8dcb-9162f4c45b93)
 
 
